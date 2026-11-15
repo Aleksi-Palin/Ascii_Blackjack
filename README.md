@@ -4,7 +4,10 @@ A blackjack game that runs in the terminal. It includes ASCII playing cards,
 chip betting, doubling down, blackjack payouts, and optional animations.
 
 ## What it looks like
+<img width="346" height="353" alt="image" src="https://github.com/user-attachments/assets/43a70cd8-5a07-41f7-8694-99e9594a44b4" />
 
+
+<img width="577" height="259" alt="image" src="https://github.com/user-attachments/assets/0e4964fb-4471-409c-a442-9365579850a1" />
 
 
 If the screenshots are not available yet, the placeholders above can be
