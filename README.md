@@ -10,9 +10,6 @@ chip betting, doubling down, blackjack payouts, and optional animations.
 <img width="577" height="259" alt="image" src="https://github.com/user-attachments/assets/0e4964fb-4471-409c-a442-9365579850a1" />
 
 
-If the screenshots are not available yet, the placeholders above can be
-replaced after adding the image files.
-
 ## Requirements
 
 - Java 17 or newer
