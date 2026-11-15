@@ -1,7 +1,10 @@
+package blackjack;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,8 +28,7 @@ public final class Animator {
 
     public static boolean supportsAnsi() {
         String term = System.getenv("TERM");
-        if (System.console() == null || !System.console().isTerminal()
-            || "dumb".equalsIgnoreCase(term)) {
+        if (System.console() == null || "dumb".equalsIgnoreCase(term)) {
             return false;
         }
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
@@ -176,9 +178,8 @@ public final class Animator {
         if (!animated) {
             return;
         }
-        Path path = Path.of("anim", name + ".txt");
         try {
-            List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+            List<String> lines = readAnimation(name);
             if (lines.isEmpty() || !lines.get(0).startsWith("fps=")) {
                 return;
             }
@@ -198,6 +199,19 @@ public final class Animator {
             });
         } catch (IOException | NumberFormatException exception) {
             return;
+        }
+    }
+
+    private static List<String> readAnimation(String name) throws IOException {
+        String resourceName = "/anim/" + name + ".txt";
+        InputStream input = Animator.class.getResourceAsStream(resourceName);
+        if (input == null) {
+            return List.of();
+        }
+        try (BufferedReader reader = new BufferedReader(
+            new InputStreamReader(input, StandardCharsets.UTF_8)
+        )) {
+            return reader.lines().toList();
         }
     }
 

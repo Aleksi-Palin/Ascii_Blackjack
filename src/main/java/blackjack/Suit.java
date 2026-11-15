@@ -1,3 +1,5 @@
+package blackjack;
+
 public class Suit {
     public static final String[] HEARTS = {
         " _____",
@@ -6,7 +8,6 @@ public class Suit {
         "| \\ / |",
         "|  .  |",
         "|____{R}|"
-
     };
     public static final String[] SPADES = {
         " _____",
@@ -15,7 +16,6 @@ public class Suit {
         "|(_._)|",
         "|  |  |",
         "|____{R}|"
-
     };
     public static final String[] CLUBS = {
         " _____",
@@ -24,7 +24,6 @@ public class Suit {
         "|(_'_)|",
         "|  |  |",
         "|____{R}|"
-
     };
     public static final String[] DIAMONDS = {
         " _____",
@@ -33,7 +32,5 @@ public class Suit {
         "| \\ / |",
         "|  .  |",
         "|____{R}|"
-
     };
-    
 }
