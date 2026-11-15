@@ -1,9 +1,13 @@
+package blackjack;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 public class CheckRules {
 
@@ -30,7 +34,9 @@ public class CheckRules {
             Rules.outcome(20, 20) == Rules.Outcome.PUSH);
         check("19 vs 20 is a loss",
             Rules.outcome(19, 20) == Rules.Outcome.LOSE);
-        check("doubled bust loses both bets", 100 - 10 * 2 == 80);
+        int bankroll = 100;
+        int wager = 10;
+        check("doubled bust loses both bets", bankroll - wager * 2 == 80);
         check("doubled win settles both bets", Rules.settleWin(80, 20) == 120);
         check("doubled push returns both bets", Rules.settlePush(80, 20) == 100);
 
@@ -47,10 +53,7 @@ public class CheckRules {
 
         boolean animations = true;
         for (String name : new String[] {"win", "bust", "lose", "push", "blackjack"}) {
-            List<String> lines = Files.readAllLines(
-                Path.of("anim", name + ".txt"),
-                StandardCharsets.UTF_8
-            );
+            List<String> lines = readAnimation(name);
             boolean valid = !lines.isEmpty() && lines.get(0).startsWith("fps=");
             if (valid) {
                 try {
@@ -95,7 +98,7 @@ public class CheckRules {
     }
 
     private static int value(int... ranks) throws Exception {
-        Method method = game.class.getDeclaredMethod("handValue", List.class);
+        Method method = Game.class.getDeclaredMethod("handValue", List.class);
         method.setAccessible(true);
         return (Integer) method.invoke(null, cards(ranks));
     }
@@ -110,6 +113,18 @@ public class CheckRules {
         System.out.println((passed ? "PASS: " : "FAIL: ") + name);
         if (!passed) {
             System.exit(1);
+        }
+    }
+
+    private static List<String> readAnimation(String name) throws IOException {
+        InputStream input = CheckRules.class.getResourceAsStream("/anim/" + name + ".txt");
+        if (input == null) {
+            throw new IOException("Missing animation resource: " + name);
+        }
+        try (BufferedReader reader = new BufferedReader(
+            new InputStreamReader(input, StandardCharsets.UTF_8)
+        )) {
+            return reader.lines().toList();
         }
     }
 }
