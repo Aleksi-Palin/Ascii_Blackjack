@@ -1,6 +1,8 @@
 
 public class PopulateCards {
 
+    private static final int CARD_WIDTH = 7;
+    private static final int CARD_GAP = 3;
     private static final String RESET = "\u001B[0m";
     private static final String RED = "\u001B[31m";
     private static final String BLACK = "\u001B[90m";
@@ -70,13 +72,17 @@ public class PopulateCards {
                 String[] lines = cardLines[cardIndex];
                 String line = row < lines.length ? lines[row] : "";
                 System.out.print(colorLine(cards[cardIndex], line));
-                printPadding(10 - line.length());
+                printPadding(Math.max(0, CARD_WIDTH + CARD_GAP - line.length()));
             }
             System.out.println();
         }
     }
 
-    private String colorLine(Card card, String line) {
+    public String[] getCardLines(Card card) {
+        return card.getArt().split("\\R");
+    }
+
+    public String colorLine(Card card, String line) {
         String color = isRedSuit(card.getSuit()) ? RED : BLACK;
         String rank = getRankText(card.getRank());
         if (line.length() < 2
@@ -124,7 +130,7 @@ public class PopulateCards {
 
             if (rank.length() > 1 && placeholderIndex >= 0) {
                 if (placeholderIndex == 1) {
-                    line = removeCharacter(line, placeholderIndex + rank.length());
+                    line = removeCharacter(line, line.length() - 2);
                 } else {
                     line = removeCharacter(line, placeholderIndex - 1);
                 }
